@@ -38,11 +38,22 @@
             response: function(where) {
                 let sec = document.querySelector(where);
                 request.onreadystatechange = function() {
-                    if (request.readyState < 4 && request.status < 200) {
-                        sec.innerHTML = "Loading...";
+                    if(request.readyState < 4 && request.status < 200){
+                       sec.innerHTML = "Loading...";
                     }
-                    if (request.readyState === 4 && request.status === 200) {
-                        sec.innerHTML = request.responseText;
+
+                    if (request.readyState == 4 && request.status == 200) {
+                       if(sec !== null) {
+                          sec.innerHTML += request.responseText;
+                       }
+                       if(!bool){
+                          sec.innerHTML = request.responseText;
+                       }
+
+                       if(callback) callback(request.responseText);
+
+                       return;
+
                     }
                 }
             },
@@ -69,7 +80,22 @@
 }());
 const async = Async();
 
+/* example Usage response callback
+      async.ready();
+      async.start("POST","routers/rout.php",true);
+      async.contentType();
+      async.sending(`log_u_e=${usr_data.usr_e}&log_u_p=${usr_data.usr_p}`);
+      async.response(null, getResult);
 
+      function getResult(arg) {
+        if(arg === "ok"){
+          window.location.href = "users.php";
+        }else{
+          console.log(" location.href cant doing becouse don't have valid response");
+        }
+      }
+
+*/
 window.addEventListener("load", function() {
 
     const btn_send = document.querySelector(".send");
