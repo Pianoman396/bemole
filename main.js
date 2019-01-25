@@ -35,7 +35,7 @@
                 request.send(content === null ? null : content);
                 return;
             },
-            response: function(where) {
+            response: function(where = null, callback, bool = true) {
                 let sec = document.querySelector(where);
                 request.onreadystatechange = function() {
                     if(request.readyState < 4 && request.status < 200){
